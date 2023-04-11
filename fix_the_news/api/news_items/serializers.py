@@ -12,7 +12,7 @@ from fix_the_news.api.users.serializers import UserReadOnlySerializer
 from fix_the_news.news_items import models
 from fix_the_news.news_items.services import scoring_service
 from fix_the_news.news_items.services import url_service
-
+from fix_the_news.news_items.services.meta_data_service import MetaDataService
 
 logger = logging.getLogger(__name__)
 
@@ -40,6 +40,8 @@ class NewsItemSerializer(serializers.ModelSerializer):
             'serialized_category',
             'serialized_user',
             'title',
+            'title_from_source',
+            'description_from_source',
             'topic',
             'topic_slug',
             'user',
@@ -98,8 +100,15 @@ class NewsItemSerializer(serializers.ModelSerializer):
             topic=validated_data["topic"],
             category=validated_data["category"],
         )
-        news_item = super().create(validated_data)
-        return news_item
+        # Getting page source data
+        meta_data = MetaDataService().run(validated_data["url"])
+        if meta_data["title"]:
+            validated_data["title_from_source"] = meta_data["title"]
+        if meta_data["description"]:
+            validated_data["description_from_source"] = (
+                meta_data["description"]
+            )
+        return super().create(validated_data)
 
     def validate(self, attrs):
         self.check_news_items_limit(attrs["user"])

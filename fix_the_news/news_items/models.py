@@ -8,7 +8,25 @@ from fix_the_news.news_items.services import scoring_service
 
 class NewsItem(DateCreatedUpdatedMixin):
     active = models.BooleanField(default=True)
-    title = models.CharField(max_length=254)
+    title = models.CharField(max_length=254, blank=True, default="")
+
+    title_from_source = models.CharField(
+        max_length=254,
+        blank=True,
+        default="",
+        help_text=(
+            "Title from the url source page taken from first H1 tag"
+        ),
+    )
+    description_from_source = models.TextField(
+        blank=True,
+        default="",
+        help_text=(
+            "Description from the url source page taken content found in "
+            "meta tag: <meta name='description' content='blah blah blah' />"
+        ),
+    )
+
     topic = models.ForeignKey(
         "topics.Topic",
         on_delete=models.CASCADE,

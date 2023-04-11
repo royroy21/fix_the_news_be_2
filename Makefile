@@ -1,5 +1,6 @@
 # Put any command that doesn't create a file here (almost all of the commands)
 .PHONY: \
+	attach \
 	chown \
 	clear_cache \
 	help \
@@ -17,6 +18,7 @@
 
 usage:
 	@echo "Available commands:"
+	@echo "attach....................Attach to backend container. Useful for when using ipdb"
 	@echo "chown.....................Change ownership of files to own user"
 	@echo "clear_cache...............Clear Django's cache"
 	@echo "help......................Display available commands"
@@ -31,6 +33,9 @@ usage:
 	@echo "scoring_workers...........Start scoring workers"
 	@echo "beat......................Start celery beat"
 	@echo "update_requirements.......Update requirements file after adding a dependency"
+
+attach:
+	@docker attach fix_the_news_be_2_django_1
 
 chown:
 	@docker-compose run --rm django chown -R "`id -u`:`id -u`" "/code/${ARGS}"

@@ -2,9 +2,16 @@ from .base import *
 
 ENV = 'local'
 
-CORS_ORIGIN_WHITELIST = (
-    "http://localhost:3000",
+# CORS_ORIGIN_WHITELIST = (
+#     "http://localhost:3000",
+# )
+
+ALLOWED_HOSTS = (
+    "localhost",
 )
+CORS_ALLOW_HEADERS = "*"
+CORS_ALLOW_ALL_ORIGINS = True
+
 
 DATABASES = {
     'default': {
@@ -37,3 +44,10 @@ LOGGING = {
         },
     },
 }
+
+# Add a local_custom.py file to import
+# settings used locally not saved to GIT.
+try:
+    from .local_custom import *  # noqa
+except ModuleNotFoundError:
+    pass

@@ -12,3 +12,6 @@ venv
 
 # celery beat
 celerybeat-schedule
+
+# local settings
+local_custom.py
