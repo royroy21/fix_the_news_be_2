@@ -1,0 +1,16 @@
+{% extends 'admin/change_form.html' %}
+
+{% block submit_buttons_bottom %}
+    {{ block.super }}
+    {% if object_id %}
+    <div class="submit-row">
+        <input type="submit" value="SAVE AS TOP RATED" name="_top_rated" class="default">
+        <input type="submit" value="SAVE WITH CALCULATED SCORE" name="_calculate_score" class="default">
+    </div>
+    <b>
+        Note: If you select 'SAVE AS TOP RATED' this topic will be top rated for a limited time only.
+        Usually a few hours.<br />This is so the topic is given a chance to get exposure before a correct
+        score can be assigned.<br />If you want a topic to be permanently top rated use the priority checkbox.
+    </b>
+    {% endif %}
+{% endblock %}

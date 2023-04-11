@@ -1,0 +1,14 @@
+# local media
+media/
+
+# ide
+.idea
+
+# python
+__pycache__
+
+# virtualenv
+venv
+
+# celery beat
+celerybeat-schedule

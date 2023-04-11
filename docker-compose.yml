@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:12.2
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_USER=docker
+    volumes:
+      - data-volume:/var/lib/db
+    ports:
+      - 25432:5432
+
+  django:
+    build: .
+    # TODO - Must fix. Having to disable reload to use ipdb.
+    # to get a container up and working with ipdb
+    # docker-compose run --rm --service-ports django
+    # command: python3 manage.py runserver 0.0.0.0:8000 --noreload
+    command: python3 manage.py runserver 0.0.0.0:8000
+    environment:
+      - DJANGO_SETTINGS_MODULE=settings.local
+    restart: unless-stopped
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    stdin_open: true
+    tty: true
+
+
+volumes:
+  data-volume:
